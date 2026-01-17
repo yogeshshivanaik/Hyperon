@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Hyperon Location</title>
+
+<style>
+
+*{
+
+  margin:0;
+
+  padding:0;
+
+  box-sizing:border-box;
+
+  font-family: "Segoe UI", sans-serif;
+
+}
+
+body{
+
+  min-height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  background:radial-gradient(circle at top, #1e2f45, #0b1320 70%);
+
+  color:#fff;
+
+}
+
+.container{
+
+  width:380px;
+
+  padding:35px 28px;
+
+  background:rgba(15,25,40,0.85);
+
+  border-radius:14px;
+
+  box-shadow:0 0 40px rgba(0,0,0,0.6);
+
+  text-align:center;
+
+}
+
+.logo{
+
+  font-size:22px;
+
+  font-weight:700;
+
+  letter-spacing:1px;
+
+  margin-bottom:25px;
+
+}
+
+h2{
+
+  margin-bottom:8px;
+
+}
+
+.sub{
+
+  font-size:14px;
+
+  color:#b7c7dc;
+
+  margin-bottom:20px;
+
+}
+
+select,input{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-bottom:15px;
+
+  border-radius:8px;
+
+  border:1px solid #2a3b55;
+
+  background:#0f1a2a;
+
+  color:#fff;
+
+}
+
+button{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:8px;
+
+  background:linear-gradient(180deg,#2f80ff,#0059ff);
+
+  color:#fff;
+
+  font-size:16px;
+
+  cursor:pointer;
+
+}
+
+.green{
+
+  background:linear-gradient(180deg,#4cd964,#2ea44f);
+
+  color:#06250f;
+
+}
+
+.note{
+
+  font-size:14px;
+
+  color:#d1ddee;
+
+  margin-bottom:20px;
+
+}
+
+.hidden{display:none;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">HYPERON</div>
+
+  <!-- STATE -->
+
+  <div id="stateStep">
+
+    <h2>Select Your Location</h2>
+
+    <p class="sub">Please choose your state:</p>
+
+    <select id="stateSelect">
+
+      <option value="">Select State</option>
+
+    </select>
+
+    <button onclick="handleState()">Continue</button>
+
+  </div>
+
+  <!-- DISTRICT -->
+
+  <div id="districtStep" class="hidden">
+
+    <h2>Select Your Location</h2>
+
+    <p class="sub">Please choose your district:</p>
+
+    <select id="districtSelect">
+
+      <option value="">Select District</option>
+
+    </select>
+
+    <button onclick="handleDistrict()">Continue</button>
+
+  </div>
+
+  <!-- NOTIFY -->
+
+  <div id="notifyStep" class="hidden">
+
+    <h2>Select Your Location</h2>
+
+    <p class="note">
+
+      Currently we are not serviceable in your area.<br>
+
+      We will inform you once Hyperon is available.
+
+    </p>
+
+    <input placeholder="Your Name">
+
+    <input placeholder="+91 Phone Number">
+
+    <button class="green">Submit</button>
+
+  </div>
+
+</div>
+
+<script>
+
+const states = [
+
+"Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
+
+"Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand",
+
+"Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur",
+
+"Meghalaya","Mizoram","Nagaland","Odisha","Punjab",
+
+"Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+
+"Uttar Pradesh","Uttarakhand","West Bengal"
+
+];
+
+const districts = {
+
+"Karnataka":[
+
+"Bagalkot","Ballari","Belagavi","Bengaluru Rural","Bengaluru Urban",
+
+"Bidar","Chamarajanagar","Chikkaballapur","Chikkamagaluru",
+
+"Chitradurga","Dakshina Kannada","Davanagere","Dharwad",
+
+"Gadag","Hassan","Haveri","Kalaburagi","Kodagu","Kolar",
+
+"Koppal","Mandya","Mysuru","Raichur","Ramanagara",
+
+"Shivamogga","Tumakuru","Udupi","Uttara Kannada",
+
+"Vijayanagara","Yadgir"
+
+]
+
+};
+
+const stateSelect=document.getElementById("stateSelect");
+
+const districtSelect=document.getElementById("districtSelect");
+
+states.forEach(s=>{
+
+  let opt=document.createElement("option");
+
+  opt.value=s;
+
+  opt.text=s;
+
+  stateSelect.appendChild(opt);
+
+});
+
+function handleState(){
+
+  const state=stateSelect.value;
+
+  if(!state) return;
+
+  if(state==="Karnataka"){
+
+    document.getElementById("stateStep").classList.add("hidden");
+
+    document.getElementById("districtStep").classList.remove("hidden");
+
+    districtSelect.innerHTML='<option value="">Select District</option>';
+
+    districts.Karnataka.forEach(d=>{
+
+      let opt=document.createElement("option");
+
+      opt.value=d;
+
+      opt.text=d;
+
+      districtSelect.appendChild(opt);
+
+    });
+
+  }else{
+
+    document.getElementById("stateStep").classList.add("hidden");
+
+    document.getElementById("notifyStep").classList.remove("hidden");
+
+  }
+
+}
+
+function handleDistrict(){
+
+  const d=districtSelect.value;
+
+  if(!d) return;
+
+  if(d==="Davanagere"){
+
+    alert("Service Available ✅");
+
+  }else{
+
+    document.getElementById("districtStep").classList.add("hidden");
+
+    document.getElementById("notifyStep").classList.remove("hidden");
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Hyperon – Browse Products</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+
+  margin:0;
+
+  padding:0;
+
+  box-sizing:border-box;
+
+  font-family:"Segoe UI",sans-serif;
+
+}
+
+body{
+
+  background:radial-gradient(circle at top,#1e2f45,#0b1320 70%);
+
+  color:#fff;
+
+}
+
+.header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:18px 30px;
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+
+}
+
+.logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  font-weight:700;
+
+  font-size:22px;
+
+}
+
+.logo-box{
+
+  width:30px;height:30px;
+
+  background:linear-gradient(135deg,#3fa9ff,#0059ff);
+
+  border-radius:6px;
+
+}
+
+.location{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  font-size:14px;
+
+  color:#cde0ff;
+
+}
+
+.avatar{
+
+  width:32px;height:32px;
+
+  border-radius:50%;
+
+  background:#999;
+
+}
+
+.container{
+
+  max-width:1200px;
+
+  margin:auto;
+
+  padding:40px 20px;
+
+}
+
+.action-btn{
+
+  display:inline-block;
+
+  padding:12px 26px;
+
+  border-radius:10px;
+
+  background:linear-gradient(180deg,#2f80ff,#0059ff);
+
+  box-shadow:0 0 18px rgba(0,110,255,0.6);
+
+  margin-bottom:25px;
+
+}
+
+h1{
+
+  font-size:36px;
+
+  margin-bottom:8px;
+
+}
+
+.subtitle{
+
+  color:#b7c7dc;
+
+  margin-bottom:30px;
+
+}
+
+.categories{
+
+  display:flex;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:20px;
+
+}
+
+.cat{
+
+  padding:10px 18px;
+
+  border-radius:10px;
+
+  background:#0f1a2a;
+
+  border:1px solid #2a3b55;
+
+  cursor:pointer;
+
+}
+
+.cat.active{
+
+  background:#1b3a6b;
+
+}
+
+.gender{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-bottom:25px;
+
+}
+
+.gender button{
+
+  padding:8px 20px;
+
+  border-radius:8px;
+
+  border:1px solid #2a3b55;
+
+  background:#0f1a2a;
+
+  color:#fff;
+
+  cursor:pointer;
+
+}
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+
+  gap:22px;
+
+}
+
+.card{
+
+  background:rgba(15,25,40,0.9);
+
+  border-radius:14px;
+
+  padding:16px;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:0 0 30px rgba(0,0,0,0.5);
+
+}
+
+.card img{
+
+  width:100%;
+
+  height:160px;
+
+  object-fit:contain;
+
+  margin-bottom:14px;
+
+}
+
+.card h3{
+
+  font-size:18px;
+
+  margin-bottom:8px;
+
+}
+
+.price{
+
+  font-size:14px;
+
+  color:#9cff9c;
+
+}
+
+.buy{
+
+  color:#6db4ff;
+
+}
+
+.pagination{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:10px;
+
+  margin:35px 0;
+
+}
+
+.page{
+
+  width:34px;height:34px;
+
+  border-radius:6px;
+
+  background:#0f1a2a;
+
+  border:1px solid #2a3b55;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+}
+
+.page.active{
+
+  background:#1b3a6b;
+
+}
+
+.footer{
+
+  text-align:center;
+
+  padding:20px;
+
+  color:#b7c7dc;
+
+  font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+  <div class="logo">
+
+    <div class="logo-box"></div>
+
+    HYPERON
+
+  </div>
+
+  <div class="location">
+
+    📍 Davanagere, Karnataka
+
+    <div class="avatar"></div>
+
+  </div>
+
+</div>
+
+<div class="container">
+
+  <div class="action-btn">Rent or Buy a Product</div>
+
+  <h1>Browse Products</h1>
+
+  <p class="subtitle">
+
+    If you want to rent or buy this product, take a screenshot and upload it while submitting your request.
+
+  </p>
+
+  <div class="categories">
+
+    <div class="cat active">👕 Fashion</div>
+
+    <div class="cat">👟 Shoes</div>
+
+    <div class="cat">💡 Lights</div>
+
+    <div class="cat">＋ Add Category</div>
+
+  </div>
+
+  <div class="gender">
+
+    <button>Men</button>
+
+    <button>Women</button>
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/4YQZ6bK.png">
+
+      <h3>Fossil</h3>
+
+      <div class="price">Rent: ₹200/day &nbsp; <span class="buy">₹8,500</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/3Yw1JzF.png">
+
+      <h3>Jordan 1 High OG</h3>
+
+      <div class="price">Rent: ₹250/day &nbsp; <span class="buy">₹27,000</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/xz5JXQx.png">
+
+      <h3>Bomber Jacket</h3>
+
+      <div class="price">Rent: ₹150/day &nbsp; <span class="buy">₹5,000</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/8vKX4dL.png">
+
+      <h3>Ray-Ban</h3>
+
+      <div class="price">Rent: ₹100/day &nbsp; <span class="buy">₹4,500</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/2Z8mQ1Q.png">
+
+      <h3>Nike Air Max 720</h3>
+
+      <div class="price">Rent: ₹150/day &nbsp; <span class="buy">₹9,500</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/6Z6nZxW.png">
+
+      <h3>Sony DSLR</h3>
+
+      <div class="price">Rent: ₹350/day &nbsp; <span class="buy">₹1,25,000</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/Wc0KQO3.png">
+
+      <h3>Nike Air Force 1</h3>
+
+      <div class="price">Rent: ₹120/day &nbsp; <span class="buy">₹10,500</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/V9U6K2n.png">
+
+      <h3>Emporio Armani</h3>
+
+      <div class="price">Rent: ₹250/day &nbsp; <span class="buy">₹17,000</span></div>
+
+    </div>
+
+    <div class="card">
+
+      <img src="https://i.imgur.com/POJm8yO.png">
+
+      <h3>Pants</h3>
+
+      <div class="price">Rent: ₹100/day &nbsp; <span class="buy">₹2,500</span></div>
+
+    </div>
+
+  </div>
+
+  <div class="pagination">
+
+    <div class="page">‹</div>
+
+    <div class="page active">1</div>
+
+    <div class="page">2</div>
+
+    <div class="page">›</div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+
+  Currently Serving: Davanagere, Karnataka
+
+</div>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Hyperon – Request a Product</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+
+  margin:0;
+
+  padding:0;
+
+  box-sizing:border-box;
+
+  font-family:"Segoe UI",sans-serif;
+
+}
+
+body{
+
+  min-height:100vh;
+
+  background:radial-gradient(circle at top,#1e2f45,#0b1320 70%);
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  color:#fff;
+
+}
+
+.container{
+
+  width:420px;
+
+  padding:35px 28px;
+
+  background:rgba(15,25,40,0.85);
+
+  border-radius:14px;
+
+  box-shadow:0 0 45px rgba(0,0,0,0.6);
+
+}
+
+.logo{
+
+  text-align:center;
+
+  font-size:22px;
+
+  font-weight:700;
+
+  margin-bottom:20px;
+
+}
+
+h2{
+
+  text-align:center;
+
+  margin-bottom:6px;
+
+}
+
+.sub{
+
+  text-align:center;
+
+  color:#b7c7dc;
+
+  font-size:14px;
+
+  margin-bottom:25px;
+
+}
+
+.field{
+
+  margin-bottom:14px;
+
+}
+
+input,textarea{
+
+  width:100%;
+
+  padding:14px;
+
+  border-radius:8px;
+
+  border:1px solid #2a3b55;
+
+  background:#0f1a2a;
+
+  color:#fff;
+
+}
+
+.row{
+
+  display:flex;
+
+  gap:10px;
+
+}
+
+.label{
+
+  font-size:14px;
+
+  margin:14px 0 8px;
+
+}
+
+.radio-group{
+
+  display:flex;
+
+  gap:18px;
+
+  margin-bottom:18px;
+
+}
+
+.radio{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  cursor:pointer;
+
+}
+
+.radio input{
+
+  display:none;
+
+}
+
+.dot{
+
+  width:18px;
+
+  height:18px;
+
+  border-radius:50%;
+
+  border:2px solid #2a3b55;
+
+}
+
+.radio input:checked + .dot{
+
+  background:#2f80ff;
+
+  box-shadow:0 0 10px #2f80ff;
+
+}
+
+.upload{
+
+  border:2px dashed #2a3b55;
+
+  border-radius:10px;
+
+  padding:20px;
+
+  text-align:center;
+
+  margin-bottom:20px;
+
+}
+
+.upload button{
+
+  margin-top:10px;
+
+  padding:10px 20px;
+
+  border:none;
+
+  border-radius:8px;
+
+  background:linear-gradient(180deg,#2f80ff,#0059ff);
+
+  color:#fff;
+
+  cursor:pointer;
+
+}
+
+.submit{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:linear-gradient(180deg,#2f80ff,#0059ff);
+
+  font-size:16px;
+
+  cursor:pointer;
+
+}
+
+.footer{
+
+  text-align:center;
+
+  margin-top:15px;
+
+  font-size:13px;
+
+  color:#b7c7dc;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">HYPERON</div>
+
+  <h2>Request a Product</h2>
+
+  <p class="sub">Rent or Buy Anything You Need</p>
+
+  <div class="field">
+
+    <input placeholder="Full Name">
+
+  </div>
+
+  <div class="field">
+
+    <input placeholder="+91 Phone Number">
+
+  </div>
+
+  <div class="label">Full Address</div>
+
+  <div class="field">
+
+    <input placeholder="House / Building">
+
+  </div>
+
+  <div class="row">
+
+    <input placeholder="Area">
+
+    <input placeholder="City">
+
+  </div>
+
+  <div class="field">
+
+    <input placeholder="Pincode">
+
+  </div>
+
+  <div class="radio-group">
+
+    <label class="radio">
+
+      <input type="radio" name="type" checked>
+
+      <span class="dot"></span> Rent
+
+    </label>
+
+    <label class="radio">
+
+      <input type="radio" name="type">
+
+      <span class="dot"></span> Buy
+
+    </label>
+
+    <label class="radio">
+
+      <input type="radio" name="type">
+
+      <span class="dot"></span> Rent & Buy
+
+    </label>
+
+  </div>
+
+  <div class="label">Product Description</div>
+
+  <textarea rows="4" placeholder="Size, Variant, Color, Brand (optional) & more!"></textarea>
+
+  <div class="upload">
+
+    <div>📤 Upload Reference Image</div>
+
+    <small>JPG, PNG (Max 5MB)</small><br>
+
+    <button onclick="document.getElementById('file').click()">Choose Image</button>
+
+    <input type="file" id="file" hidden>
+
+  </div>
+
+  <button class="submit" onclick="submitRequest()">Submit Request</button>
+
+  <div class="footer">
+
+    Currently Serving: Davanagere, Karnataka
+
+  </div>
+
+</div>
+
+<script>
+
+function submitRequest(){
+
+  alert("Request submitted successfully ✅");
+
+}
+
+</script>
+
+</body>
+
+</html>
+    <script type="module" src="./script.js"></script>
+
+  </body>
+  
+</html>
